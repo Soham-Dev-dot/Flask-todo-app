@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Home-
+  
+{% endblock title %}
+{% block body %}
+
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <h2>Add a Todo</h2>
+    <form action="/" method="POST">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Title</label>
+    <input type="text" class="form-control" id="text" name="title" aria-describedby="textHelp">
+    <div id="textHelp" class="form-text">Enter the title of your post</div>
+  </div>
+  <div class="mb-3">
+    <label for="text" class="form-label">Details</label>
+    <input type="text" class="form-control" name="desc" id="desc">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Add Todo</button>
+</form>
+</div>
+
+<div class="container">
+
+  
+
+    {% if allTodo|length == 0 %}
+    <div class="alert alert-warning" role="alert">
+
+       No Records Found. Add some todos to display here.
+
+     {% else %}
+      <table class="table">
+       <thead>
+       <tr>
+          <th scope="col">S-No</th>
+          <th scope="col">Todos</th>
+          <th scope="col">Description</th>
+          <th scope="col">Date Created</th>
+          <th scope="col">Action</th>
+         </tr>
+        </thead>
+  <tbody>
+    {% for todo in allTodo %}
+      
+     <tr>
+       <th scope="row">{{ loop.index }}</th>
+       <td>{{ todo.title }}</td>
+       <td>{{ todo.details }}</td>
+       <td>{{ todo.date_created }}</td>
+       <td><a href="update/{{ todo.id }}" class="btn  btn-primary">Update</a> <a href="delete/{{ todo.id }}" class="btn btn-danger">Delete</a></td>
+     </tr>
+
+    {% endfor %}
+  </tbody>
+ </table>
+
+    {% endif %}
+
+</div>
+
+{% endblock body %}
